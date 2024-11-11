@@ -12,9 +12,15 @@
   color: white;
 }
 
+.header-logo {
+  cursor: pointer; 
+}
+
+
 .header-logo img {
-  height: 40px;
+  height: auto;
   margin-right: 20px;
+  width: 120px;
 }
 
 .header-search {
@@ -121,4 +127,31 @@
   height: 150px;
   object-fit: cover;
   border-radius: 5px;
+}
+
+.search-results-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 2px solid #ccc; 
+  margin-bottom: 10px; 
+}
+
+.left-side {
+  font-size: 14px;
+}
+
+.right-side {
+  display: flex;
+  align-items: center;
+}
+
+.sort-by {
+  display: flex;
+  align-items: center;
+}
+
+.sort-by select {
+  margin-left: 10px;
 }
