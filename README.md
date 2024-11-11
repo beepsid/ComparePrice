@@ -37,7 +37,7 @@ To run this project, start by downloading the files provided (`server.js`, `scra
 
 ### Backend Setup
 
-1. **Set Up Project Folder**: Create a project folder, and inside it, place `server.js` and the `scrapers/` folder containing:
+1. **Set Up Project Folder**: Create a project folder, and inside it, copy and place `server.js` and the `scrapers/` folder containing:
    - `amazonScraper.js`
    - `ebayScraper.js`
 
@@ -73,6 +73,9 @@ The server should be accessible at `http://localhost:3000`.
    ```
 
 3. **Configure the API Endpoint in React**: Ensure that the API requests in your React components are directed to `http://localhost:3000/search`. Update the frontend directory files with those provided in this repository.
+
+4. **Set Up Project Folder**: In the folder created, copy and place the data from frontend folder to your respective project folder:
+   - `/frontend/src`
 
 4. **Start the Frontend**: Run the frontend with:
    ```bash
