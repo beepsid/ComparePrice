@@ -2,7 +2,7 @@
 import React from 'react';
 import './ProductSearch.css';
 
-const ProductSearch = ({ products, loading, searched, error }) => (
+const ProductSearch = ({ products, loading, searched, error, addToCart }) => (
     <div>
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
@@ -22,6 +22,12 @@ const ProductSearch = ({ products, loading, searched, error }) => (
                             <a href={product.link} target="_blank" rel="noopener noreferrer" className="view-product-button">
                                 View Product
                             </a>
+                            <button
+                                className="add-to-cart-button"
+                                onClick={() => addToCart(product)} // Call addToCart on button click
+                            >
+                                Add to Cart
+                            </button>
                             <p className="source">Source: {product.source}</p>
                         </div>
                     </div>
