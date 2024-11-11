@@ -1654,3 +1654,4 @@ frontend/public/logo192.png
 frontend/public/logo512.png
 frontend/public/manifest.json
 frontend/public/robots.txt
+.env
