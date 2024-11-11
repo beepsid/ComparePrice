@@ -1,29 +1,27 @@
 const express = require('express');
-const cors = require('cors'); // Importing the CORS package to handle CORS issues
+const cors = require('cors');
 const fetchFromAmazon = require('./scrapers/amazonScraper');
 const fetchFromEbay = require('./scrapers/ebayScraper');
 
 const app = express();
 const PORT = 3000;
 
-app.use(cors());  // Enable CORS
+app.use(cors()); 
 app.use(express.static('public'));
 
-// Home endpoint to fetch a set of default or trending products
 app.get('/api/home', async (req, res) => {
     try {
-        // Fetch a default set of products from Amazon and eBay
+        // Fetch products from Amazon and eBay
         const [amazonProducts, ebayProducts] = await Promise.all([
-            fetchFromAmazon('trending products'), // Replace with a trending or popular term
-            fetchFromEbay('bestsellers')           // Replace with a popular search term
+            fetchFromAmazon('trending products'), 
+            fetchFromEbay('bestsellers')           
         ]);
 
-        // Combine and format the product data
         const products = [
             ...amazonProducts.map(product => ({
                 ...product,
                 price: formatPrice(product.price, 'amazon'),
-                source: 'Amazon' // Add source info if not already in data
+                source: 'Amazon'
             })),
             ...ebayProducts.map(product => ({
                 ...product,

@@ -1,54 +1,87 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import axios from 'axios'; // Import axios for HTTP requests
+import ProductSearch from './ProductSearch';
+import axios from 'axios';
+import logo from './assets/pricepal.png';
+
 
 function App() {
+    const [productName, setProductName] = useState(''); // State for search input
     const [products, setProducts] = useState([]); // State for storing products
-    const [loading, setLoading] = useState(true); // State to track loading status
-    const [error, setError] = useState(null); // State to track errors
+    const [loading, setLoading] = useState(false); // Loading state
+    const [error, setError] = useState(null); // Error state
+    const [searched, setSearched] = useState(false); // Track if search has been made
+
+    // Fetch products based on search query
+    const searchProducts = async () => {
+        setLoading(true);
+        setSearched(true);
+        try {
+            const response = await axios.get(`http://localhost:3000/search?productName=${productName}`);
+            setProducts(response.data);
+            setError(null); 
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            setError('Failed to load products');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchInitialProducts = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/api/home');
-                console.log("Fetched products:", response.data); // Log fetched data
-                setProducts(response.data); // Update state with product data
-                setLoading(false);
+                setProducts(response.data);
             } catch (error) {
-                console.error('Error fetching products:', error);
-                setError('Failed to load products');
-                setLoading(false);
+                console.error('Error fetching initial products:', error);
+                setError('Failed to load initial products');
             }
         };
 
-        fetchProducts();
+        fetchInitialProducts();
     }, []);
 
     return (
         <div className="App">
-            <header className="header">MyShop</header>
-
-            <main>
-                {loading && <p>Loading products...</p>}
-                {error && <p>{error}</p>}
-
-                <div className="product-grid">
-                    {products.length > 0 ? (
-                        products.map((product, index) => (
-                            <div key={index} className="product">
-                                <img src={product.image} alt={product.title} />
-                                <h3>{product.title}</h3>
-                                <p>{product.price}</p>
-                                <a href={product.link} target="_blank" rel="noopener noreferrer">
-                                    View Product
-                                </a>
-                                <p>Source: {product.source}</p>
-                            </div>
-                        ))
-                    ) : (
-                        !loading && <p>No products available</p>
-                    )}
+            {/* Header Section */}
+            <header className="header">
+                <div className="header-logo">
+                <img src={logo} alt="PricePal Logo" />
                 </div>
+
+                {/* Search bar */}
+                <div className="header-search">
+                    <input
+                        type="text"
+                        placeholder="Enter product name"
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
+                        className="header-search-input"
+                    />
+                    <button onClick={searchProducts} className="header-search-button">
+                        Search
+                    </button>
+                </div>
+
+                {/* Navigation options */}
+                <div className="header-nav">
+                    <span className="header-nav-item">Hello, Sign in</span>
+                    <span className="header-nav-item">Cart</span>
+                </div>
+            </header>
+
+            {/* Main Content */}
+            <main>
+                <ProductSearch 
+                    products={products} 
+                    loading={loading} 
+                    searched={searched} 
+                    error={error} 
+                    productName={productName} 
+                    setProductName={setProductName}
+                    searchProducts={searchProducts} // Pass searchProducts here
+                />
             </main>
         </div>
     );
