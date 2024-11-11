@@ -27,10 +27,13 @@
 
 /* Styling for product image */
 .product-image {
-    max-width: 100%;
+    width: 200px;
+    height: auto;
+    object-fit: cover;
     height: auto;
     border-radius: 8px;
     margin-bottom: 10px;
+    
 }
 
 /* Product title and price */
