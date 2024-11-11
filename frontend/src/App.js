@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import ProductSearch from './ProductSearch';
+import ProductSearch from './components/ProductSearch';
 import axios from 'axios';
+import { Route, Routes, Link, useNavigate, useLocation } from 'react-router-dom';
 import logo from './assets/pricepal.png';
+import CartPage from './components/CartPage';
+import SearchScreen from './components/SearchScreen'; 
 
 function App() {
-    const [productName, setProductName] = useState(''); // State for search input
-    const [products, setProducts] = useState([]); // State for storing products
-    const [loading, setLoading] = useState(false); // Loading state
-    const [error, setError] = useState(null); // Error state
-    const [searched, setSearched] = useState(false); // Track if search has been made
-    const [sortOption, setSortOption] = useState(''); // State to track sorting option
+    const [productName, setProductName] = useState('');
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [searched, setSearched] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
 
-    // Function to fetch products based on the search query
+    const navigate = useNavigate();
+    const location = useLocation();  //current route location
+
     const searchProducts = async () => {
         setLoading(true);
         setSearched(true);
@@ -20,6 +25,7 @@ function App() {
             const response = await axios.get(`http://localhost:3000/search?productName=${productName}`);
             setProducts(response.data);
             setError(null);
+            navigate('/search'); 
         } catch (error) {
             console.error('Error fetching products:', error);
             setError('Failed to load products');
@@ -28,21 +34,16 @@ function App() {
         }
     };
 
-    // Sorting function
-    const sortProducts = (option) => {
-        setSortOption(option); 
-        let sortedProducts;
+    const addToCart = (product) => {
+        setCartItems(prevCart => [...prevCart, product]);
+    };
 
-        if (option === 'low-to-high') {
-            sortedProducts = [...products].sort((a, b) => parseFloat(a.price.replace('₹', '')) - parseFloat(b.price.replace('₹', '')));
-        } else if (option === 'high-to-low') {
-            sortedProducts = [...products].sort((a, b) => parseFloat(b.price.replace('₹', '')) - parseFloat(a.price.replace('₹', '')));
-        } else if (option === 'featured') {
-            searchProducts();
-            return;
-        }
+    const removeFromCart = (product) => {
+        setCartItems(cartItems.filter(item => item !== product));
+    };
 
-        setProducts(sortedProducts);
+    const viewProductSource = (product) => {
+        alert(`Viewing product source for ${product.name}`);
     };
 
     useEffect(() => {
@@ -61,13 +62,11 @@ function App() {
 
     return (
         <div className="App">
-            {/* Header Section */}
+            {/* Header for both pages */}
             <header className="header">
-                <div className="header-logo" onClick={() => window.location.reload()}>
+                <div className="header-logo" onClick={() => navigate('/')}> {/* Added onClick handler */}
                     <img src={logo} alt="PricePal Logo" />
                 </div>
-
-                {/* Search bar */}
                 <div className="header-search">
                     <input
                         type="text"
@@ -80,49 +79,46 @@ function App() {
                         Search
                     </button>
                 </div>
-
-                {/* Navigation options */}
                 <div className="header-nav">
                     <span className="header-nav-item">Hello, Sign in</span>
-                    <span className="header-nav-item">Cart</span>
+                    <Link to="/cart" className="header-nav-item">Cart ({cartItems.length})</Link>
                 </div>
             </header>
 
-
-            {/* Main Content */}
             <main>
-                {searched && (
-                    <div className="search-results-info">
-                        <div className="left-side">
-                            <p>{`Found around ${products.length} results for "`}<span style={{ color: 'orange' }}>{productName}</span>"</p>
-                        </div>
+                <Routes>
+                    {/* Home page route */}
+                    <Route path="/" element={
+                        location.pathname === '/' && (
+                            <>
+                                {/* Show the home screen items only on the home page */}
+                                <div className="home-items">
+                                    <h2>Home Page Products</h2>
+                                    <ProductSearch
+                                        products={products}
+                                        loading={loading}
+                                        searched={searched}
+                                        error={error}
+                                        addToCart={addToCart}
+                                    />
+                                </div>
+                            </>
+                        )
+                    } />
 
-                        <div className="right-side">
-                            {/* Sorting dropdown */}
-                            <div className="sort-by">
-                                <label>Sort by: </label>
-                                <select
-                                    value={sortOption}
-                                    onChange={(e) => sortProducts(e.target.value)}
-                                >
-                                    <option value="featured">Featured</option>
-                                    <option value="low-to-high">Price: Low to High</option>
-                                    <option value="high-to-low">Price: High to Low</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    {/* Search page route: Use SearchScreen for sorting and displaying results */}
+                    <Route path="/search" element={
+                        <SearchScreen
+                            products={products}
+                            loading={loading}
+                            error={error}
+                            addToCart={addToCart}
+                        />
+                    } />
 
-                )}
-                <ProductSearch
-                    products={products}
-                    loading={loading}
-                    searched={searched}
-                    error={error}
-                    productName={productName}
-                    setProductName={setProductName}
-                    searchProducts={searchProducts} 
-                />
+                    {/* Cart page route */}
+                    <Route path="/cart" element={<CartPage cartItems={cartItems} removeFromCart={removeFromCart} viewProductSource={viewProductSource} />} />
+                </Routes>
             </main>
         </div>
     );

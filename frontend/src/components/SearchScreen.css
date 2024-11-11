@@ -1,0 +1,24 @@
+/* src/components/SearchScreen.css */
+.search-results-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    font-size: 1rem;
+}
+
+.search-results-info .left-side {
+    font-weight: bold;
+}
+
+.search-results-info .right-side {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.sort-by select {
+    padding: 5px;
+    margin-left: 10px;
+    font-size: 1rem;
+}

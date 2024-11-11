@@ -27,10 +27,13 @@
 
 /* Styling for product image */
 .product-image {
-    max-width: 100%;
+    width: 200px;
+    height: auto;
+    object-fit: cover;
     height: auto;
     border-radius: 8px;
     margin-bottom: 10px;
+    
 }
 
 /* Product title and price */
@@ -73,6 +76,27 @@
     background-color: #e68900;
     transform: scale(1.1);
 }
+
+/* Bubble-style button for "Add to Cart" */
+.add-to-cart-button {
+    display: inline-block;
+    background-color: #289fa7; /* Green color for add-to-cart */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for "Add to Cart" button */
+.add-to-cart-button:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+}
+
 
 /* Style for source information */
 .source {
