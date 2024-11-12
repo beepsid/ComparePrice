@@ -108,7 +108,7 @@ Contributions are welcome! To contribute:
 
 ### Home Page
 
-![Home Screen](./public/homescreen.png)
+![Home Screen](./public/homescreen.jpg)
 
 ### Search Page
 
