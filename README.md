@@ -104,18 +104,6 @@ Contributions are welcome! To contribute:
 3. Commit your changes and push the branch.
 4. Submit a pull request.
 
-## Demonstration
-
-### Home Page
-
-![Screenshot 2024-11-11 195339](https://github.com/user-attachments/assets/23a31c2b-9337-45a5-815b-cf5faa1e450b)
-
-### Search Page
-
-![Screenshot 2024-11-11 195439](https://github.com/user-attachments/assets/a74063df-ce19-45fa-8aa2-51b03da9cb55)
-
-### This is the base build when I first build the app
-
 ## License
 
 This project is licensed under the MIT License.
