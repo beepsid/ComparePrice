@@ -75,7 +75,7 @@ The server should be accessible at `http://localhost:3000`.
 3. **Configure the API Endpoint in React**: Ensure that the API requests in your React components are directed to `http://localhost:3000/search`. Update the frontend directory files with those provided in this repository.
 
 4. **Set Up Project Folder**: In the folder created, copy and place the data from frontend folder to your respective project folder:
-   - `/frontend/src`
+   - `/frontend`
 
 4. **Start the Frontend**: Run the frontend with:
    ```bash
@@ -103,6 +103,23 @@ Contributions are welcome! To contribute:
 2. Create a new branch for your feature or bug fix.
 3. Commit your changes and push the branch.
 4. Submit a pull request.
+
+## Demonstration
+
+### Home Page
+
+![Home Screen](./public/homescreen.jpg)
+
+### Search Page
+
+![Search Screen](./public/searchscreen.png)
+
+### Cart Page
+
+![Cart Screen](./public/cartscreen.png)
+
+### This is the base build when I first build the app
+
 
 ## License
 
